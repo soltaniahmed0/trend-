@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111211">
+  <meta name="description" content="Trend Café Resto — your favorite flavors in Tunis Bardo.">
+  <title>Trend Café Resto | Tunis Bardo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap');
+
+    :root {
+      --ink: #111211;
+      --ink-soft: #20221f;
+      --paper: #f2eee5;
+      --paper-dim: #a9aca0;
+      --lime: #c6df2c;
+      --orange: #ff6b09;
+      --muted: #252723;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'DM Sans', Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body.cart-open { overflow: hidden; }
+    button { font: inherit; }
+    .shell {
+      min-height: 100svh;
+      min-width: 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: clamp(18px, 3vw, 38px) clamp(16px, 5vw, 70px) 16px;
+      position: relative;
+      background: radial-gradient(circle at 80% 0%, rgba(255,107,9,.08), transparent 28%), var(--ink);
+    }
+    .reader {
+      width: min(100%, 1080px);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 3vw, 38px);
+      min-height: 0;
+    }
+    .book {
+      width: min(87vw, 510px);
+      height: min(77svh, 720px);
+      min-height: 560px;
+      perspective: 1800px;
+      position: relative;
+      touch-action: pan-y;
+    }
+    .book::before, .book::after {
+      content: '';
+      position: absolute;
+      inset: 12px -7px -12px 7px;
+      border: 1px solid rgba(184,147,86,.13);
+      pointer-events: none;
+    }
+    .book::after { inset: 7px -3px -7px 3px; border-color: rgba(184,147,86,.2); }
+    .page {
+      position: absolute;
+      inset: 0;
+      padding: clamp(32px, 6vw, 64px) clamp(28px, 6vw, 65px);
+      background: var(--paper);
+      color: var(--ink);
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 850ms cubic-bezier(.2,.7,.15,1), z-index 0ms 425ms;
+      box-shadow: 0 12px 38px rgba(0,0,0,.2);
+      overflow: hidden;
+      border: 1px solid rgba(198,223,44,.25);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .page::before {
+      content: ''; position: absolute; inset: 13px;
+      border: 1px solid rgba(80,86,72,.34); pointer-events: none;
+    }
+    .page.flipped { transform: rotateY(-180deg); z-index: 0 !important; }
+    .page:not(.flipped) { z-index: var(--page-index); }
+    .page:nth-child(1) { z-index: 8; }
+    .page:nth-child(2) { z-index: 7; }
+    .page:nth-child(3) { z-index: 6; }
+    .page:nth-child(4) { z-index: 5; }
+    .page:nth-child(5) { z-index: 4; }
+    .page:nth-child(6) { z-index: 3; }
+    .page:nth-child(7) { z-index: 2; }
+    .page:nth-child(8) { z-index: 1; }
+    .page-face {
+      position: absolute; inset: 0; padding: inherit;
+      background: var(--paper); backface-visibility: hidden;
+      display: flex; flex-direction: column;
+    }
+    .page-back { transform: rotateY(180deg); }
+    .cover { justify-content: center; text-align: center; align-items: center; }
+    .cover .page-back { background: #ddd3c1; }
+    .eyebrow, .folio, .section-label {
+      font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: #78810e;
+    }
+    h1, h2, h3, p { margin: 0; }
+    .brand {
+      font-family: var(--sans); font-weight: 500; font-size: clamp(38px, 9vw, 67px);
+      line-height: .9; letter-spacing: -.07em; max-width: 320px;
+    }
+    .brand span { display: block; font-size: .37em; letter-spacing: .02em; margin-top: 13px; font-weight: 500; color: var(--orange); text-transform: uppercase; }
+    .emblem {
+      width: 55px; height: 55px; border: 1px solid var(--lime); border-radius: 50%;
+      display: grid; place-items: center; margin: 35px 0 28px; color: var(--lime); font-family: var(--serif); font-size: 22px;
+    }
+    .tagline { font-family: var(--sans); color: #656a60; font-size: 14px; }
+    .cover .eyebrow { margin-top: 43px; }
+    .contents { justify-content: center; }
+    .contents h2, .category h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 7vw, 51px); letter-spacing: -.04em; }
+    .rule { height: 1px; background: var(--line); width: 100%; margin: 22px 0 28px; }
+    .contents-list { list-style: none; padding: 0; margin: 0; }
+    .contents-list button { border: 0; background: none; padding: 13px 0; width: 100%; display: flex; justify-content: space-between; text-align: left; cursor: pointer; color: var(--ink); border-bottom: 1px solid rgba(112,98,76,.2); }
+    .contents-list button:hover .toc-name { color: #856332; }
+    .toc-name { font-family: var(--serif); font-size: 21px; transition: color .2s; }
+    .toc-no { font-size: 10px; color: var(--orange); letter-spacing: .12em; padding-top: 6px; }
+    .story { margin-top: 38px; font-family: var(--serif); font-style: italic; color: #756c5e; line-height: 1.5; font-size: 13px; max-width: 255px; }
+    .category { gap: 0; }
+    .category-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; }
+    .category h2 { font-size: clamp(30px, 6vw, 45px); line-height: .95; }
+    .category .section-label { margin-bottom: 7px; }
+    .art {
+      height: clamp(120px, 19vh, 166px); margin: 23px 0 25px; overflow: hidden; position: relative;
+      background: #38332d; border: 1px solid rgba(184,147,86,.48);
+    }
+    .art svg { width: 100%; height: 100%; display: block; }
+    .menu-items { display: grid; gap: 13px; }
+    .item { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+    .item h3 { font-family: var(--serif); font-size: 17px; font-weight: 400; letter-spacing: -.01em; }
+    .item p { color: #70695f; font-size: 10.5px; line-height: 1.35; margin-top: 3px; max-width: 255px; }
+    .price { color: #db5808; font-size: 11px; padding-top: 3px; white-space: nowrap; }
+    .closing { justify-content: space-between; }
+    .closing h2 { font-family: var(--serif); font-weight: 300; font-size: 42px; line-height: .95; letter-spacing: -.04em; }
+    .details { display: grid; gap: 18px; margin-top: 35px; }
+    .details p { color: #70695f; font-size: 11px; line-height: 1.45; }
+    .details strong { color: var(--ink); display: block; font-family: var(--serif); font-size: 16px; font-weight: 400; margin-bottom: 2px; }
+    .qr-wrap { display: flex; align-items: center; gap: 15px; border-top: 1px solid var(--line); padding-top: 16px; }
+    .qr { width: 62px; height: 62px; background: #eee7d9; padding: 4px; image-rendering: pixelated; }
+    .qr-wrap span { font-family: var(--serif); font-style: italic; color: #70695f; font-size: 12px; max-width: 145px; }
+    .nav-button { flex: 0 0 42px; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(198,223,44,.4); background: transparent; color: var(--lime); cursor: pointer; display: grid; place-items: center; font-size: 22px; transition: background .2s, color .2s; z-index: 10; }
+    .nav-button:hover, .nav-button:focus-visible { background: var(--lime); color: var(--ink); outline: none; }
+    .nav-button:disabled { opacity: .25; cursor: default; }
+    .reader-footer { width: min(100%, 1080px); margin: 14px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--paper-dim); }
+    .page-count { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+    .page-count b { color: var(--lime); font-weight: 500; }
+    .hint { font-size: 10px; letter-spacing: .08em; color: #827a6d; }
+    @media (max-width: 600px) {
+      .shell { padding: 13px 9px 15px; }
+      .reader { gap: 5px; }
+      .book { width: calc(100vw - 68px); height: min(78svh, 650px); min-height: 480px; }
+      .nav-button { width: 31px; height: 31px; flex-basis: 31px; font-size: 17px; }
+      .page { padding: 29px 25px; }
+      .page::before { inset: 9px; }
+      .art { margin-top: 18px; margin-bottom: 20px; height: 116px; }
+      .menu-items { gap: 10px; }
+      .item h3 { font-size: 15px; }
+      .item p { font-size: 9.5px; }
+      .hint { display: none; }
+    }
+    @media (min-width: 900px) { .book { min-height: 640px; } }
+    @media (prefers-reduced-motion: reduce) { .page { transition-duration: 1ms; } }
+    .cover .brand, .cover .emblem, .cover .tagline, .cover .eyebrow { animation: arrive .9s both cubic-bezier(.2,.7,.15,1); }
+    .cover .brand { animation-delay: .1s; } .cover .emblem { animation-delay: .2s; } .cover .tagline { animation-delay: .3s; } .cover .eyebrow { animation-delay: .4s; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .home { width: 100%; max-width: 680px; min-width: 0; margin: auto; padding: 10px 0 75px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:18px; padding: 0 4px 18px; }
+    .topbar .brandmark { font-size: 21px; line-height:.88; font-weight: 500; letter-spacing:-.07em; }
+    .brandmark span { display:block; color:var(--orange); text-transform:uppercase; font-size:9px; letter-spacing:.02em; margin-top:5px; }
+    .top-actions { display:flex; gap:10px; align-items:center; color:var(--paper); }
+    .menu-status { color:#a9aca0; font-size:10px; white-space:nowrap; }
+    .status-dot { display:inline-block; width:7px; height:7px; margin-right:5px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 3px rgba(198,223,44,.12); }
+    .icon-btn { width:32px; height:32px; border:0; background:transparent; color:var(--paper); font-size:21px; cursor:pointer; position:relative; }
+    .badge { position:absolute; right:-1px; top:-3px; width:15px; height:15px; border-radius:50%; background:var(--orange); color:white; font:10px var(--sans); display:grid; place-items:center; }
+    .hero { min-height: 245px; border-radius: 22px; overflow:hidden; position:relative; padding: 28px 22px; display:flex; align-items:flex-end; background:linear-gradient(90deg, rgba(10,11,10,.95) 0%, rgba(10,11,10,.63) 48%, rgba(10,11,10,.12)), url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1000&q=80') center/cover; }
+    .hero h1 { font-family:var(--sans); font-size:clamp(34px, 8vw, 61px); line-height:.83; letter-spacing:-.07em; max-width:290px; color:#fff; }
+    .hero h1 em { display:block; color:var(--orange); font-style:normal; }
+    .hero p { font-size:11px; color:#e7e8de; margin-top:17px; max-width:180px; line-height:1.35; }
+    .search { height:52px; border:1px solid #444840; border-radius:28px; background:#1c1e1b; margin:-25px 14px 21px; position:relative; z-index:2; display:flex; align-items:center; padding:0 10px 0 18px; color:#969b91; }
+    .search input { background:none; border:0; outline:0; color:var(--paper); flex:1; min-width:0; font:13px var(--sans); }
+    .search button { width:34px;height:34px;border-radius:50%;border:0;background:var(--orange);color:white;font-size:18px;cursor:pointer; }
+    .section-row { display:flex; justify-content:space-between; align-items:center; margin:19px 3px 11px; }
+    .section-row h2 { font-family:var(--serif); font-size:22px; font-weight:400; color:#fff; }
+    .section-row a { font-size:10px; color:var(--orange); text-decoration:none; }
+    .categories { display:flex; gap:9px; min-width:0; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; padding:0 3px 7px; }
+    .categories::-webkit-scrollbar { display:none; }
+    .category-chip { flex:0 0 77px; height:75px; min-width:77px; border:1px solid #353832; border-radius:11px; background:#242622; color:#ddd; display:grid; place-items:center; padding:9px 4px 6px; font-size:10px; cursor:pointer; }
+    .category-chip.active { background:var(--orange); border-color:var(--orange); color:#171713; }
+    .category-chip .chip-icon { font-size:25px; line-height:1; filter:grayscale(1) brightness(2); }
+    .category-chip.active .chip-icon { filter:none; }
+    .dish-row { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; min-width:0; padding:0 3px 5px; }
+    .dish-card { min-width:0; min-height:167px; border:1px solid #41443d; border-radius:13px; overflow:hidden; background:#1d1f1c; position:relative; }
+    .dish-photo { height:101px; background-size:cover; background-position:center; }
+    .dish-info { padding:7px 9px; }
+    .dish-info h3 { font-size:12px; font-weight:500; color:#f6f3e9; line-height:1.1; }
+    .dish-info p { font-size:10px; color:#a7aa9e; margin-top:4px; }
+    .dish-price { color:var(--orange); font-size:11px; margin-top:3px; }
+    .add { position:absolute; right:7px; bottom:7px; width:23px; height:23px; border-radius:50%; border:0; background:var(--orange); color:#fff; cursor:pointer; font-size:17px; line-height:1; }
+    .bundles { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .bundle { min-height:118px; padding:14px 12px; border-radius:14px; overflow:hidden; border:1px solid #45483e; background-size:cover; background-position:center; position:relative; }
+    .bundle::before { content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,15,13,.96),rgba(14,15,13,.18)); }
+    .bundle > * { position:relative; }
+    .bundle h3 { font-size:12px; color:#fff; max-width:105px; line-height:1.1; }
+    .bundle p { font-size:10px; color:#d1d5c9; max-width:105px; margin-top:6px; }
+    .bundle strong { display:block; color:var(--orange); font-size:13px; margin-top:8px; }
+    .offer { min-height:134px; border-radius:14px; padding:18px 15px; background:var(--orange) url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=700&q=80') right center/54% auto no-repeat; position:relative; overflow:hidden; }
+    .offer::after { content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--orange) 28%,rgba(255,107,9,.76) 55%,transparent); }
+    .offer > * { position:relative;z-index:1; }
+    .offer h2 { font-size:22px; line-height:.9; color:#fff; max-width:180px; letter-spacing:-.04em; }
+    .offer p { color:#fff; font-size:11px; margin-top:8px; max-width:160px; }
+    .offer button { margin-top:11px;border:0;border-radius:16px;background:var(--lime);color:#151713;font-size:10px;font-weight:500;padding:8px 15px;cursor:pointer; }
+    .catalog-section { margin-top:25px; }
+    .catalog-section[hidden] { display:none; }
+    .catalog-section h2 { font:400 22px var(--serif); color:#fff; margin:0 3px 11px; }
+    .catalog-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
+    .catalog-card { min-height:116px; border:1px solid #3c4038; border-radius:13px; background:#1c1e1b; padding:12px; display:flex; flex-direction:column; justify-content:space-between; }
+    .catalog-photo { height:78px; margin:-12px -12px 11px; border-radius:12px 12px 0 0; background-position:center; background-size:cover; position:relative; }
+    .catalog-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 35%, rgba(18,19,17,.7)); }
+    .catalog-card h3 { font-size:13px; color:#f5f2e9; font-weight:500; line-height:1.1; }
+    .catalog-card p { color:#9da196; font-size:10px; line-height:1.3; margin-top:5px; }
+    .catalog-card footer { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+    .catalog-card .add { position:static; width:25px; height:25px; flex:none; }
+    .filter-empty { color:#969b91; font-size:12px; padding:18px 3px; display:none; }
+    .filter-empty.show { display:block; }
+    .cart-bar { position:fixed; bottom:14px; left:50%; transform:translateX(-50%); width:min(calc(100% - 32px), 645px); height:52px; border:1px solid #6f7c17; border-radius:28px; background:#c2d930; color:#171913; display:flex; align-items:center; justify-content:space-between; padding:0 18px; font-size:13px; z-index:20; box-shadow:0 8px 25px rgba(0,0,0,.3); }
+    .cart-bar b { font-weight:500; }
+    .cart-bar span { font-size:11px; }
+    .cart-bar { cursor:pointer; }
+    .cart-bar:hover { background:#d4eb39; }
+    .cart-drawer { position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; z-index:30; }
+    .cart-drawer.open { display:flex; }
+    .cart-panel { width:min(100%, 680px); margin:auto; background:#242622; border:1px solid #454a3e; border-bottom:0; border-radius:22px 22px 0 0; padding:20px; color:var(--paper); }
+    .cart-panel header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    .cart-panel h2 { font:400 25px var(--serif); }
+    .close-cart { border:0; background:none; color:var(--paper); font-size:24px; cursor:pointer; }
+    .cart-line { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #3b3e36; font-size:13px; }
+    .cart-line span { color:var(--orange); }
+    .order-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:17px 0; }
+    .order-options button { border:1px solid #555b4d; background:#1a1c19; color:var(--paper); border-radius:9px; padding:11px; cursor:pointer; font-size:11px; }
+    .order-options button.selected { border-color:var(--lime); color:var(--lime); }
+    .checkout { width:100%; border:0; border-radius:22px; background:var(--orange); color:white; padding:13px; cursor:pointer; font-weight:500; }
+    .order-form { display:grid; gap:8px; margin:14px 0; }
+    .order-form input, .order-form textarea { width:100%; border:1px solid #505649; border-radius:8px; background:#191b18; color:var(--paper); padding:11px; font:12px var(--sans); resize:vertical; }
+    .order-form input:focus, .order-form textarea:focus { border-color:var(--lime); outline:0; }
+    .site-footer { margin:30px 3px 35px; padding-top:20px; border-top:1px solid #383c34; display:grid; grid-template-columns:1fr 1fr; gap:18px; color:#9da196; font-size:10px; line-height:1.55; }
+    .site-footer h3 { color:var(--paper); font:400 17px var(--serif); margin-bottom:5px; }
+    .site-footer strong { color:var(--lime); font-weight:500; }
+    .footer-wide { grid-column:1/-1; color:#6f756a; }
+    .toast { position:fixed; left:50%; bottom:80px; transform:translateX(-50%) translateY(10px); opacity:0; pointer-events:none; background:#e7f452; color:#171913; border-radius:18px; padding:10px 16px; font-size:12px; z-index:40; transition:opacity .2s, transform .2s; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .home .category-chip, .home .dish-card, .home .bundle, .home .offer { animation: arrive .5s both; }
+    .home .category-chip:nth-child(2), .home .dish-card:nth-child(2) { animation-delay:.05s; }.home .category-chip:nth-child(3), .home .dish-card:nth-child(3) { animation-delay:.1s; }
+    @media (max-width:900px) { .dish-row { grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+    @media (max-width:600px) { .home { padding-top:0; } .shell { padding:13px 16px 0; } .hero { min-height:258px; } .categories { gap:6px; } .category-chip { height:70px; font-size:9px; } }
+  </style>
+</head>
+<body>
+  <main class="shell" aria-label="Trend Café Resto menu">
+    <section class="home">
+      <header class="topbar"><div class="brandmark">Trend <span>Café Resto · Bardo</span></div><div class="menu-status"><span class="status-dot"></span> Open today · 08:00–23:00</div></header>
+      <section class="hero"><div><h1>Crispy<br>flavor <em>made fast</em></h1><p>Hot, crunchy &amp; made fresh for you.</p></div></section>
+      <label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search for meals, combos, drinks..."><button aria-label="Filter menu">☷</button></label>
+      <div class="categories" aria-label="Food categories"><button class="category-chip active"><span class="chip-icon">✦</span>All<br>items</button><button class="category-chip"><span class="chip-icon">🍗</span>Fried<br>Chicken</button><button class="category-chip"><span class="chip-icon">☕</span>Coffee</button><button class="category-chip"><span class="chip-icon">🍳</span>Breakfast</button><button class="category-chip"><span class="chip-icon">🥐</span>Pastries</button><button class="category-chip"><span class="chip-icon">🍔</span>Burgers</button><button class="category-chip"><span class="chip-icon">🌯</span>Wraps</button><button class="category-chip"><span class="chip-icon">🍟</span>Sides</button><button class="category-chip"><span class="chip-icon">🥤</span>Drinks</button><button class="category-chip"><span class="chip-icon">🍰</span>Desserts</button></div>
+      <div class="section-row"><h2>Signature dishes ✧</h2><a href="#dishes">View all ›</a></div>
+      <div class="dish-row" id="dishes"><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Crispy Chicken Bucket</h3><p>Bestseller</p><div class="dish-price">39.90 DT</div></div></article><article class="dish-card" data-category="burgers"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Spicy Crunch Burger</h3><p>Bestseller</p><div class="dish-price">29.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Korean BBQ Wings</h3><p>Bestseller</p><div class="dish-price">34.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Chicken Tenders</h3><p>House favorite</p><div class="dish-price">24.90 DT</div></div></article></div>
+      <div class="section-row"><h2>Family bundles <small style="color:var(--lime);font:italic 11px var(--serif)">Perfect for sharing!</small></h2><a href="#bundles">View all ›</a></div>
+      <div class="bundles" id="bundles"><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80')"><h3>Family Feast</h3><p>10 pcs chicken<br>+ 2 large sides</p><strong>29.99 DT</strong></article><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80')"><h3>Mega Bundle</h3><p>15 pcs chicken<br>+ 3 large sides</p><strong>42.99 DT</strong></article></div>
+      <div class="section-row"><h2>Chef specials</h2></div><section class="offer"><h2>WEEKEND<br>CRUNCH FEST</h2><p>Up to 25% OFF on selected items</p><button>View specials</button></section>
+      <div id="catalog" aria-label="Full menu catalog"></div><p class="filter-empty" id="filterEmpty">No dishes match that search yet. Try another favorite.</p>
+      <footer class="site-footer"><div><h3>Trend Café Resto</h3><p>Tunis Bardo<br>Good food. Good mood.</p></div><div><h3>Visit us</h3><p><strong>Mon–Sun</strong> · 08:00–23:00<br>Kitchen closes at 22:30</p></div><div><h3>Contact</h3><p>+216 70 123 456<br>@trendcaferesto</p></div><div><h3>Delivery</h3><p>Across Bardo &amp; nearby Tunis<br>Every day until 22:30</p></div><p class="footer-wide">© 2026 Trend Café Resto · Freshly made in Tunis</p></footer>
+    </section>
+  </main>
+  <script>
+    const products = [
+      ['coffee', 'Espresso tonic', 'Bright espresso, tonic, citrus peel.', 9.9],
+      ['coffee', 'Cardamom latte', 'Silky milk, cardamom, double espresso.', 10.9],
+      ['coffee', 'Iced caramel macchiato', 'Cold milk, caramel, espresso cloud.', 12.9],
+      ['coffee', 'Mocha cookie', 'Chocolate, espresso, whipped cream.', 13.9],
+      ['coffee', 'Matcha cloud', 'Ceremonial matcha, vanilla foam, oat milk.', 14.9],
+      ['breakfast', 'Trend breakfast plate', 'Eggs, toast, sausage, fries and salad.', 24.9],
+      ['breakfast', 'Avocado toast', 'Sourdough, avocado, poached egg, chili.', 18.9],
+      ['breakfast', 'Pancake stack', 'Fluffy pancakes, maple, berries and cream.', 19.9],
+      ['breakfast', 'Croque monsieur', 'Toasted brioche, turkey, cheese, béchamel.', 21.9],
+      ['breakfast', 'Granola bowl', 'Yogurt, granola, banana, honey and berries.', 16.9],
+      ['pastries', 'Almond croissant', 'Buttery layers, almond cream, toasted flakes.', 7.9],
+      ['pastries', 'Pain au chocolat', 'Crisp pastry with dark chocolate center.', 6.9],
+      ['pastries', 'Cinnamon roll', 'Soft baked swirl with vanilla glaze.', 8.9],
+      ['pastries', 'Pistachio cookie', 'Crunchy edge, soft center, roasted pistachio.', 7.9],
+      ['pastries', 'Blueberry muffin', 'Fresh berries, lemon zest, soft crumb.', 8.9],
+      ['wraps', 'Crispy chicken wrap', 'Chicken, lettuce, cheese, pickles and sauce.', 24.9],
+      ['wraps', 'BBQ beef wrap', 'Beef strips, smoky BBQ, onion and fries.', 26.9],
+      ['sides', 'Loaded fries', 'Fries, cheese sauce, herbs and crispy onions.', 15.9],
+      ['sides', 'Mozzarella sticks', 'Golden crumb, melted cheese, tomato dip.', 14.9],
+      ['sides', 'Fresh coleslaw', 'Cabbage, carrot, creamy house dressing.', 9.9],
+      ['desserts', 'Lotus cheesecake', 'Creamy cheesecake, biscuit crumble, caramel.', 16.9],
+      ['desserts', 'Oreo milkshake', 'Cold, creamy, loaded with cookie crunch.', 17.9],
+      ['desserts', 'Nutella waffle', 'Warm waffle, chocolate, hazelnut and cream.', 18.9],
+      ['drinks', 'Fresh mint lemonade', 'Lemon, mint and just enough sweetness.', 8.9],
+      ['drinks', 'Peach iced tea', 'Black tea, peach, citrus and ice.', 9.9],
+      ['drinks', 'Strawberry smoothie', 'Fresh strawberry, banana and yogurt.', 14.9]
+    ];
+    const categoryNames = { coffee: 'Coffee & drinks', breakfast: 'Breakfast', pastries: 'Pastries', wraps: 'Wraps', sides: 'Sides', desserts: 'Desserts', drinks: 'Cold drinks' };
+    const catalog = document.querySelector('#catalog');
+    const categoryOrder = ['coffee', 'breakfast', 'pastries', 'wraps', 'sides', 'desserts', 'drinks'];
+    const itemImages = {
+      'Espresso tonic': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80',
+      'Cardamom latte': 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=500&q=80',
+      'Iced caramel macchiato': 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80',
+      'Mocha cookie': 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80',
+      'Matcha cloud': 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=500&q=80',
+      'Trend breakfast plate': 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=500&q=80',
+      'Avocado toast': 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=500&q=80',
+      'Pancake stack': 'https://images.unsplash.com/photo-1554520735-0a6b8b6ce8b4?auto=format&fit=crop&w=500&q=80',
+      'Croque monsieur': 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80',
+      'Granola bowl': 'https://images.unsplash.com/photo-1517093728432-a0440f8d45af?auto=format&fit=crop&w=500&q=80',
+      'Almond croissant': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80',
+      'Pain au chocolat': 'https://images.unsplash.com/photo-1623334044303-241021148842?auto=format&fit=crop&w=500&q=80',
+      'Cinnamon roll': 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=500&q=80',
+      'Pistachio cookie': 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80',
+      'Blueberry muffin': 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=500&q=80',
+      'Crispy chicken wrap': 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&w=500&q=80',
+      'BBQ beef wrap': 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=500&q=80',
+      'Loaded fries': 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=500&q=80',
+      'Mozzarella sticks': 'https://images.unsplash.com/photo-1548340748-6d2b7d7da280?auto=format&fit=crop&w=500&q=80',
+      'Fresh coleslaw': 'https://images.unsplash.com/photo-1625938145744-e380515399bf?auto=format&fit=crop&w=500&q=80',
+      'Lotus cheesecake': 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80',
+      'Oreo milkshake': 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80',
+      'Nutella waffle': 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=500&q=80',
+      'Fresh mint lemonade': 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=500&q=80',
+      'Peach iced tea': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80',
+      'Strawberry smoothie': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80'
+    };
+    categoryOrder.forEach(category => {
+      const section = document.createElement('section');
+      section.className = 'catalog-section';
+      section.dataset.category = category;
+      section.innerHTML = `<h2>${categoryNames[category]}</h2><div class="catalog-grid">${products.filter(product => product[0] === category).map(product => `<article class="catalog-card"><div class="catalog-photo" role="img" aria-label="${product[1]}" style="background-image:url('${itemImages[product[1]]}')"></div><div><h3>${product[1]}</h3><p>${product[2]}</p></div><footer><strong class="dish-price">${product[3].toFixed(2)} DT</strong></footer></article>`).join('')}</div>`;
+      catalog.appendChild(section);
+    });
+    let activeCategory = 'all';
+    const applyFilters = () => {
+      const query = document.querySelector('.search input').value.trim().toLowerCase();
+      const matches = element => !query || element.innerText.toLowerCase().includes(query);
+      document.querySelectorAll('.dish-card').forEach(card => { card.hidden = (activeCategory !== 'all' && card.dataset.category !== activeCategory) || !matches(card); });
+      document.querySelectorAll('.catalog-section').forEach(section => {
+        const categoryMatch = activeCategory === 'all' || section.dataset.category === activeCategory;
+        section.hidden = !categoryMatch;
+        section.querySelectorAll('.catalog-card').forEach(card => { card.hidden = !matches(card); });
+        if (categoryMatch && !section.querySelector('.catalog-card:not([hidden])')) section.hidden = true;
+      });
+      document.querySelector('#filterEmpty').classList.toggle('show', !document.querySelector('.dish-card:not([hidden]), .catalog-card:not([hidden])'));
+    };
+    document.querySelectorAll('.category-chip').forEach(button => button.addEventListener('click', () => {
+      document.querySelector('.category-chip.active').classList.remove('active');
+      button.classList.add('active');
+      const label = button.textContent.trim().toLowerCase();
+      activeCategory = label.includes('burger') ? 'burgers' : label.includes('chicken') ? 'fried' : label.includes('coffee') ? 'coffee' : label.includes('breakfast') ? 'breakfast' : label.includes('pastr') ? 'pastries' : label.includes('wrap') ? 'wraps' : label.includes('side') ? 'sides' : label.includes('drink') ? 'drinks' : label.includes('dessert') ? 'desserts' : 'all';
+      applyFilters();
+      document.querySelector('#dishes').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }));
+    document.querySelector('.search input').addEventListener('input', event => {
+      applyFilters();
+    });
+    document.querySelector('.search button').addEventListener('click', () => document.querySelector('.search input').focus());
+    document.querySelector('.offer button').addEventListener('click', () => document.querySelector('#dishes').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    document.querySelectorAll('.dish-photo, .hero, .bundle, .offer').forEach(element => element.addEventListener('error', () => { element.style.backgroundImage = 'linear-gradient(135deg, #35382e, #121312)'; }, true));
+  </script>
+</body>
+</html>
