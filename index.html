@@ -251,6 +251,7 @@
     .login-screen.open { display:grid; }
     .login-card { width:min(100%, 380px); border:1px solid #3c4238; border-radius:17px; background:#1b1e1a; padding:24px; }
     .login-card .brandmark { font-size:22px; margin-bottom:25px; }
+    .login-card .brandmark span { display:inline; margin-left:4px; }
     .login-card h2 { color:#fff; font:400 28px var(--serif); }
     .login-card p { color:#9da196; font-size:11px; line-height:1.45; margin:7px 0 20px; }
     .login-form { display:grid; gap:10px; }
@@ -313,7 +314,7 @@
   </main>
   <section class="dashboard" id="dashboard" aria-label="Owner menu dashboard" aria-hidden="true">
     <div class="dashboard-shell">
-      <header class="dashboard-header"><div><h1 class="dashboard-title">Menu studio</h1><p class="dashboard-subtitle">Trend resto coffee · Owner dashboard</p></div><div class="admin-actions"><button class="dashboard-close logout" id="logoutButton" type="button">Sign out</button><button class="dashboard-close" id="closeDashboard" type="button">Back to menu</button></div></header>
+      <header class="dashboard-header"><div><h1 class="dashboard-title">Menu studio</h1><p class="dashboard-subtitle">TrendResto · Coffee · Owner dashboard</p></div><div class="admin-actions"><button class="dashboard-close logout" id="logoutButton" type="button">Sign out</button><button class="dashboard-close" id="closeDashboard" type="button">Back to menu</button></div></header>
       <div class="dashboard-layout">
         <section class="admin-panel"><h2 id="formTitle">Add a menu item</h2><form class="admin-form" id="itemForm"><input type="hidden" id="editIndex" value=""><label>Item name<input id="itemName" required placeholder="Example: Vanilla latte"></label><label>Category<select id="itemCategory" required><option value="coffee">Coffee &amp; drinks</option><option value="breakfast">Breakfast</option><option value="pastries">Pastries</option><option value="burgers">Burgers</option><option value="wraps">Wraps</option><option value="sides">Sides</option><option value="desserts">Desserts</option><option value="drinks">Cold drinks</option></select></label><label>Description<textarea id="itemDescription" required placeholder="Short description"></textarea></label><label>Price in DT<input id="itemPrice" required min="0" step="0.1" type="number" placeholder="12.9"></label><label>Image URL<input id="itemImage" required type="url" placeholder="https://images.unsplash.com/..."></label><div class="admin-actions"><button class="admin-primary" type="submit">Save item</button><button class="admin-secondary" id="cancelEdit" type="button" hidden>Cancel</button></div></form><p class="dashboard-note">Changes are saved in this browser using local storage. Connect this interface to a backend before using it for the live restaurant menu.</p></section>
         <section class="admin-panel"><h2>Published items <span id="itemCount" style="color:var(--lime);font:11px var(--sans)"></span></h2><div class="admin-list" id="adminList"></div></section>
@@ -321,7 +322,7 @@
     </div>
   </section>
   <section class="login-screen" id="loginScreen" aria-label="Owner login" aria-hidden="true">
-    <div class="login-card"><div class="brandmark">Trend <span>Resto · Coffee</span></div><h2>Owner access</h2><p>Sign in to manage the public menu catalog.</p><form class="login-form" id="loginForm"><label>Username<input id="loginUsername" autocomplete="username" required></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label><p class="login-error" id="loginError" role="alert"></p><button class="login-submit" type="submit">Sign in to dashboard</button></form></div>
+    <div class="login-card"><div class="brandmark">TrendResto <span>· Coffee</span></div><h2>Owner access</h2><p>Sign in to manage the public menu catalog.</p><form class="login-form" id="loginForm"><label>Username<input id="loginUsername" autocomplete="username" required></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label><p class="login-error" id="loginError" role="alert"></p><button class="login-submit" type="submit">Sign in to dashboard</button></form></div>
   </section>
   <script>
     const defaultProducts = [
