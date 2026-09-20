@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111211">
-  <meta name="description" content="Trend Café Resto — your favorite flavors in Tunis Bardo.">
-  <title>Trend Café Resto | Tunis Bardo</title>
+  <meta name="description" content="Trend resto coffee — menu, coffee, food and gelato in Tunis.">
+  <title>Trend resto coffee | Tunis</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap');
 
@@ -22,6 +22,7 @@
     }
 
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html, body { margin: 0; min-height: 100%; }
     body {
       background: var(--ink);
@@ -30,7 +31,7 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-    body.cart-open { overflow: hidden; }
+    body.dashboard-open { overflow: hidden; }
     button { font: inherit; }
     .shell {
       min-height: 100svh;
@@ -184,10 +185,14 @@
     .status-dot { display:inline-block; width:7px; height:7px; margin-right:5px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 3px rgba(198,223,44,.12); }
     .icon-btn { width:32px; height:32px; border:0; background:transparent; color:var(--paper); font-size:21px; cursor:pointer; position:relative; }
     .badge { position:absolute; right:-1px; top:-3px; width:15px; height:15px; border-radius:50%; background:var(--orange); color:white; font:10px var(--sans); display:grid; place-items:center; }
-    .hero { min-height: 245px; border-radius: 22px; overflow:hidden; position:relative; padding: 28px 22px; display:flex; align-items:flex-end; background:linear-gradient(90deg, rgba(10,11,10,.95) 0%, rgba(10,11,10,.63) 48%, rgba(10,11,10,.12)), url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1000&q=80') center/cover; }
-    .hero h1 { font-family:var(--sans); font-size:clamp(34px, 8vw, 61px); line-height:.83; letter-spacing:-.07em; max-width:290px; color:#fff; }
-    .hero h1 em { display:block; color:var(--orange); font-style:normal; }
-    .hero p { font-size:11px; color:#e7e8de; margin-top:17px; max-width:180px; line-height:1.35; }
+    .hero { min-height: 300px; border-radius: 22px; overflow:hidden; position:relative; padding: 36px 28px; display:flex; align-items:flex-end; background:linear-gradient(90deg, rgba(10,11,10,.96) 0%, rgba(10,11,10,.72) 45%, rgba(10,11,10,.14)), url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=1000&q=80') center/cover; }
+    .hero > div { max-width:560px; }
+    .hero-kicker { display:block; color:var(--lime); font-size:10px; letter-spacing:.18em; text-transform:uppercase; margin-bottom:15px; }
+    .hero h1 { font-family:var(--sans); font-size:clamp(40px, 6.5vw, 68px); line-height:.88; letter-spacing:-.06em; max-width:500px; color:#fff; font-weight:500; }
+    .hero h1 em { display:block; color:var(--orange); font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-.045em; margin-left:16px; }
+    .hero p { font-size:12px; color:#e7e8de; margin-top:19px; max-width:240px; line-height:1.45; }
+    .hero small { display:flex; align-items:center; gap:9px; color:#f0f1e8; font-size:10px; margin-top:13px; letter-spacing:.02em; }
+    .hero small i { display:block; width:4px; height:4px; border-radius:50%; background:var(--orange); }
     .search { height:52px; border:1px solid #444840; border-radius:28px; background:#1c1e1b; margin:-25px 14px 21px; position:relative; z-index:2; display:flex; align-items:center; padding:0 10px 0 18px; color:#969b91; }
     .search input { background:none; border:0; outline:0; color:var(--paper); flex:1; min-width:0; font:13px var(--sans); }
     .search button { width:34px;height:34px;border-radius:50%;border:0;background:var(--orange);color:white;font-size:18px;cursor:pointer; }
@@ -202,7 +207,7 @@
     .category-chip.active .chip-icon { filter:none; }
     .dish-row { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; min-width:0; padding:0 3px 5px; }
     .dish-card { min-width:0; min-height:167px; border:1px solid #41443d; border-radius:13px; overflow:hidden; background:#1d1f1c; position:relative; }
-    .dish-photo { height:101px; background-size:cover; background-position:center; }
+    .dish-photo { height:142px; background-size:cover; background-position:center; }
     .dish-info { padding:7px 9px; }
     .dish-info h3 { font-size:12px; font-weight:500; color:#f6f3e9; line-height:1.1; }
     .dish-info p { font-size:10px; color:#a7aa9e; margin-top:4px; }
@@ -226,38 +231,62 @@
     .catalog-section h2 { font:400 22px var(--serif); color:#fff; margin:0 3px 11px; }
     .catalog-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
     .catalog-card { min-height:116px; border:1px solid #3c4038; border-radius:13px; background:#1c1e1b; padding:12px; display:flex; flex-direction:column; justify-content:space-between; }
-    .catalog-photo { height:78px; margin:-12px -12px 11px; border-radius:12px 12px 0 0; background-position:center; background-size:cover; position:relative; }
-    .catalog-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 35%, rgba(18,19,17,.7)); }
+    .catalog-photo { height:142px; margin:-12px -12px 11px; border-radius:12px 12px 0 0; background-position:center; background-size:cover; position:relative; }
+    .catalog-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(18,19,17,.18)); }
     .catalog-card h3 { font-size:13px; color:#f5f2e9; font-weight:500; line-height:1.1; }
     .catalog-card p { color:#9da196; font-size:10px; line-height:1.3; margin-top:5px; }
     .catalog-card footer { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
     .catalog-card .add { position:static; width:25px; height:25px; flex:none; }
     .filter-empty { color:#969b91; font-size:12px; padding:18px 3px; display:none; }
     .filter-empty.show { display:block; }
-    .cart-bar { position:fixed; bottom:14px; left:50%; transform:translateX(-50%); width:min(calc(100% - 32px), 645px); height:52px; border:1px solid #6f7c17; border-radius:28px; background:#c2d930; color:#171913; display:flex; align-items:center; justify-content:space-between; padding:0 18px; font-size:13px; z-index:20; box-shadow:0 8px 25px rgba(0,0,0,.3); }
-    .cart-bar b { font-weight:500; }
-    .cart-bar span { font-size:11px; }
-    .cart-bar { cursor:pointer; }
-    .cart-bar:hover { background:#d4eb39; }
-    .cart-drawer { position:fixed; inset:0; background:rgba(0,0,0,.65); display:none; align-items:flex-end; z-index:30; }
-    .cart-drawer.open { display:flex; }
-    .cart-panel { width:min(100%, 680px); margin:auto; background:#242622; border:1px solid #454a3e; border-bottom:0; border-radius:22px 22px 0 0; padding:20px; color:var(--paper); }
-    .cart-panel header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-    .cart-panel h2 { font:400 25px var(--serif); }
-    .close-cart { border:0; background:none; color:var(--paper); font-size:24px; cursor:pointer; }
-    .cart-line { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #3b3e36; font-size:13px; }
-    .cart-line span { color:var(--orange); }
-    .order-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:17px 0; }
-    .order-options button { border:1px solid #555b4d; background:#1a1c19; color:var(--paper); border-radius:9px; padding:11px; cursor:pointer; font-size:11px; }
-    .order-options button.selected { border-color:var(--lime); color:var(--lime); }
-    .checkout { width:100%; border:0; border-radius:22px; background:var(--orange); color:white; padding:13px; cursor:pointer; font-weight:500; }
-    .order-form { display:grid; gap:8px; margin:14px 0; }
-    .order-form input, .order-form textarea { width:100%; border:1px solid #505649; border-radius:8px; background:#191b18; color:var(--paper); padding:11px; font:12px var(--sans); resize:vertical; }
-    .order-form input:focus, .order-form textarea:focus { border-color:var(--lime); outline:0; }
     .site-footer { margin:30px 3px 35px; padding-top:20px; border-top:1px solid #383c34; display:grid; grid-template-columns:1fr 1fr; gap:18px; color:#9da196; font-size:10px; line-height:1.55; }
     .site-footer h3 { color:var(--paper); font:400 17px var(--serif); margin-bottom:5px; }
     .site-footer strong { color:var(--lime); font-weight:500; }
     .footer-wide { grid-column:1/-1; color:#6f756a; }
+    .owner-link { color:var(--lime); text-decoration:none; font-size:10px; }
+    .owner-link:hover { color:#fff; }
+    .dashboard { position:fixed; inset:0; z-index:50; display:none; overflow:auto; background:#10120f; padding:24px 16px 40px; }
+    .dashboard.open { display:block; }
+    .login-screen { position:fixed; inset:0; z-index:60; display:none; place-items:center; padding:20px; background:rgba(8,10,8,.96); }
+    .login-screen.open { display:grid; }
+    .login-card { width:min(100%, 380px); border:1px solid #3c4238; border-radius:17px; background:#1b1e1a; padding:24px; }
+    .login-card .brandmark { font-size:22px; margin-bottom:25px; }
+    .login-card h2 { color:#fff; font:400 28px var(--serif); }
+    .login-card p { color:#9da196; font-size:11px; line-height:1.45; margin:7px 0 20px; }
+    .login-form { display:grid; gap:10px; }
+    .login-form label { color:#9da196; font-size:10px; }
+    .login-form input { width:100%; margin-top:5px; border:1px solid #505649; border-radius:8px; background:#121411; color:var(--paper); padding:11px; font:12px var(--sans); }
+    .login-form input:focus { outline:0; border-color:var(--lime); }
+    .login-submit { border:0; border-radius:20px; background:var(--lime); color:#171913; padding:12px; cursor:pointer; font-size:11px; font-weight:500; margin-top:4px; }
+    .login-error { min-height:15px; color:#ff8a73; font-size:10px; }
+    .dashboard-close.logout { border-color:#8c584d; color:#ffad99; }
+    .dashboard-shell { width:min(100%, 920px); margin:auto; }
+    .dashboard-header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    .dashboard-title { font:400 clamp(28px, 5vw, 42px) var(--serif); color:#fff; }
+    .dashboard-subtitle { color:#9da196; font-size:11px; margin-top:5px; }
+    .dashboard-close { border:1px solid #505649; border-radius:20px; background:transparent; color:var(--paper); padding:9px 14px; cursor:pointer; font-size:11px; }
+    .dashboard-layout { display:grid; grid-template-columns:minmax(240px, .8fr) minmax(0, 1.4fr); gap:16px; }
+    .admin-panel { border:1px solid #3c4238; border-radius:15px; padding:16px; background:#1b1e1a; }
+    .admin-panel h2 { color:#fff; font:400 21px var(--serif); margin-bottom:14px; }
+    .admin-form { display:grid; gap:9px; }
+    .admin-form label { color:#9da196; font-size:10px; }
+    .admin-form input, .admin-form select, .admin-form textarea { width:100%; margin-top:5px; border:1px solid #505649; border-radius:8px; background:#121411; color:var(--paper); padding:10px; font:12px var(--sans); }
+    .admin-form textarea { min-height:72px; resize:vertical; }
+    .admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus { outline:0; border-color:var(--lime); }
+    .admin-primary { border:0; border-radius:20px; background:var(--lime); color:#171913; padding:11px 16px; cursor:pointer; font-size:11px; font-weight:500; margin-top:4px; }
+    .admin-secondary { border:1px solid #58604f; border-radius:20px; background:transparent; color:var(--paper); padding:10px 15px; cursor:pointer; font-size:11px; }
+    .admin-actions { display:flex; gap:8px; }
+    .admin-list { display:grid; gap:8px; max-height:calc(100vh - 150px); overflow:auto; }
+    .admin-item { display:grid; grid-template-columns:58px 1fr auto; align-items:center; gap:10px; border:1px solid #353b32; border-radius:10px; padding:8px; background:#151714; }
+    .admin-item img { width:58px; height:58px; border-radius:7px; object-fit:cover; }
+    .admin-item h3 { color:#f5f2e9; font-size:12px; font-weight:500; }
+    .admin-item p { color:#8f968b; font-size:10px; margin-top:3px; }
+    .admin-item strong { display:block; color:var(--orange); font-size:11px; margin-top:4px; }
+    .item-actions { display:flex; gap:5px; }
+    .item-actions button { width:29px; height:29px; border:1px solid #505649; border-radius:50%; background:transparent; color:var(--paper); cursor:pointer; }
+    .item-actions button:last-child { color:#ff8a73; }
+    .dashboard-note { color:#747b70; font-size:10px; margin-top:12px; line-height:1.45; }
+    @media (max-width:700px) { .dashboard-layout { grid-template-columns:1fr; } .admin-list { max-height:none; } .dashboard-header { align-items:flex-start; } }
     .toast { position:fixed; left:50%; bottom:80px; transform:translateX(-50%) translateY(10px); opacity:0; pointer-events:none; background:#e7f452; color:#171913; border-radius:18px; padding:10px 16px; font-size:12px; z-index:40; transition:opacity .2s, transform .2s; }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .home .category-chip, .home .dish-card, .home .bundle, .home .offer { animation: arrive .5s both; }
@@ -267,23 +296,35 @@
   </style>
 </head>
 <body>
-  <main class="shell" aria-label="Trend Café Resto menu">
+  <main class="shell" aria-label="Trend resto coffee menu">
     <section class="home">
-      <header class="topbar"><div class="brandmark">Trend <span>Café Resto · Bardo</span></div><div class="menu-status"><span class="status-dot"></span> Open today · 08:00–23:00</div></header>
-      <section class="hero"><div><h1>Crispy<br>flavor <em>made fast</em></h1><p>Hot, crunchy &amp; made fresh for you.</p></div></section>
+      <header class="topbar"><div class="brandmark">Trend <span>Resto · Coffee</span></div></header>
+      <section class="hero"><div><h1>Trend resto <em>coffee</em></h1></div></section>
       <label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search for meals, combos, drinks..."><button aria-label="Filter menu">☷</button></label>
       <div class="categories" aria-label="Food categories"><button class="category-chip active"><span class="chip-icon">✦</span>All<br>items</button><button class="category-chip"><span class="chip-icon">🍗</span>Fried<br>Chicken</button><button class="category-chip"><span class="chip-icon">☕</span>Coffee</button><button class="category-chip"><span class="chip-icon">🍳</span>Breakfast</button><button class="category-chip"><span class="chip-icon">🥐</span>Pastries</button><button class="category-chip"><span class="chip-icon">🍔</span>Burgers</button><button class="category-chip"><span class="chip-icon">🌯</span>Wraps</button><button class="category-chip"><span class="chip-icon">🍟</span>Sides</button><button class="category-chip"><span class="chip-icon">🥤</span>Drinks</button><button class="category-chip"><span class="chip-icon">🍰</span>Desserts</button></div>
-      <div class="section-row"><h2>Signature dishes ✧</h2><a href="#dishes">View all ›</a></div>
+      <div class="section-row featured-section"><h2>Signature dishes ✧</h2><a href="#dishes">View all ›</a></div>
       <div class="dish-row" id="dishes"><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Crispy Chicken Bucket</h3><p>Bestseller</p><div class="dish-price">39.90 DT</div></div></article><article class="dish-card" data-category="burgers"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Spicy Crunch Burger</h3><p>Bestseller</p><div class="dish-price">29.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Korean BBQ Wings</h3><p>Bestseller</p><div class="dish-price">34.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Chicken Tenders</h3><p>House favorite</p><div class="dish-price">24.90 DT</div></div></article></div>
-      <div class="section-row"><h2>Family bundles <small style="color:var(--lime);font:italic 11px var(--serif)">Perfect for sharing!</small></h2><a href="#bundles">View all ›</a></div>
-      <div class="bundles" id="bundles"><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80')"><h3>Family Feast</h3><p>10 pcs chicken<br>+ 2 large sides</p><strong>29.99 DT</strong></article><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80')"><h3>Mega Bundle</h3><p>15 pcs chicken<br>+ 3 large sides</p><strong>42.99 DT</strong></article></div>
-      <div class="section-row"><h2>Chef specials</h2></div><section class="offer"><h2>WEEKEND<br>CRUNCH FEST</h2><p>Up to 25% OFF on selected items</p><button>View specials</button></section>
+      <div class="section-row bundles-section"><h2>Family bundles <small style="color:var(--lime);font:italic 11px var(--serif)">Perfect for sharing!</small></h2><a href="#bundles">View all ›</a></div>
+      <div class="bundles bundles-section" id="bundles"><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80')"><h3>Family Feast</h3><p>10 pcs chicken<br>+ 2 large sides</p><strong>29.99 DT</strong></article><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80')"><h3>Mega Bundle</h3><p>15 pcs chicken<br>+ 3 large sides</p><strong>42.99 DT</strong></article></div>
+      <div class="section-row specials-section"><h2>Chef specials</h2></div><section class="offer specials-section"><h2>WEEKEND<br>CRUNCH FEST</h2><p>Up to 25% OFF on selected items</p><button>View specials</button></section>
       <div id="catalog" aria-label="Full menu catalog"></div><p class="filter-empty" id="filterEmpty">No dishes match that search yet. Try another favorite.</p>
-      <footer class="site-footer"><div><h3>Trend Café Resto</h3><p>Tunis Bardo<br>Good food. Good mood.</p></div><div><h3>Visit us</h3><p><strong>Mon–Sun</strong> · 08:00–23:00<br>Kitchen closes at 22:30</p></div><div><h3>Contact</h3><p>+216 70 123 456<br>@trendcaferesto</p></div><div><h3>Delivery</h3><p>Across Bardo &amp; nearby Tunis<br>Every day until 22:30</p></div><p class="footer-wide">© 2026 Trend Café Resto · Freshly made in Tunis</p></footer>
+      <footer class="site-footer"><div><h3>Trend resto coffee</h3><p>40 Av. Monji Slim<br>Le 2000, Tunis</p></div><div><h3>Visit us</h3><p><strong>Restaurant</strong> · Dine-in<br>Takeaway available</p></div><div><h3>Contact</h3><p>27 062 330<br>R47H+PC Tunis</p></div><div><h3>Good to know</h3><p>TND 20–30 per person<br>Food · Coffee · Gelato</p></div><p class="footer-wide">© 2026 Trend resto coffee · Tunis · <a class="owner-link" href="#owner">Owner dashboard</a></p></footer>
     </section>
   </main>
+  <section class="dashboard" id="dashboard" aria-label="Owner menu dashboard" aria-hidden="true">
+    <div class="dashboard-shell">
+      <header class="dashboard-header"><div><h1 class="dashboard-title">Menu studio</h1><p class="dashboard-subtitle">Trend resto coffee · Owner dashboard</p></div><div class="admin-actions"><button class="dashboard-close logout" id="logoutButton" type="button">Sign out</button><button class="dashboard-close" id="closeDashboard" type="button">Back to menu</button></div></header>
+      <div class="dashboard-layout">
+        <section class="admin-panel"><h2 id="formTitle">Add a menu item</h2><form class="admin-form" id="itemForm"><input type="hidden" id="editIndex" value=""><label>Item name<input id="itemName" required placeholder="Example: Vanilla latte"></label><label>Category<select id="itemCategory" required><option value="coffee">Coffee &amp; drinks</option><option value="breakfast">Breakfast</option><option value="pastries">Pastries</option><option value="burgers">Burgers</option><option value="wraps">Wraps</option><option value="sides">Sides</option><option value="desserts">Desserts</option><option value="drinks">Cold drinks</option></select></label><label>Description<textarea id="itemDescription" required placeholder="Short description"></textarea></label><label>Price in DT<input id="itemPrice" required min="0" step="0.1" type="number" placeholder="12.9"></label><label>Image URL<input id="itemImage" required type="url" placeholder="https://images.unsplash.com/..."></label><div class="admin-actions"><button class="admin-primary" type="submit">Save item</button><button class="admin-secondary" id="cancelEdit" type="button" hidden>Cancel</button></div></form><p class="dashboard-note">Changes are saved in this browser using local storage. Connect this interface to a backend before using it for the live restaurant menu.</p></section>
+        <section class="admin-panel"><h2>Published items <span id="itemCount" style="color:var(--lime);font:11px var(--sans)"></span></h2><div class="admin-list" id="adminList"></div></section>
+      </div>
+    </div>
+  </section>
+  <section class="login-screen" id="loginScreen" aria-label="Owner login" aria-hidden="true">
+    <div class="login-card"><div class="brandmark">Trend <span>Resto · Coffee</span></div><h2>Owner access</h2><p>Sign in to manage the public menu catalog.</p><form class="login-form" id="loginForm"><label>Username<input id="loginUsername" autocomplete="username" required></label><label>Password<input id="loginPassword" type="password" autocomplete="current-password" required></label><p class="login-error" id="loginError" role="alert"></p><button class="login-submit" type="submit">Sign in to dashboard</button></form></div>
+  </section>
   <script>
-    const products = [
+    const defaultProducts = [
       ['coffee', 'Espresso tonic', 'Bright espresso, tonic, citrus peel.', 9.9],
       ['coffee', 'Cardamom latte', 'Silky milk, cardamom, double espresso.', 10.9],
       ['coffee', 'Iced caramel macchiato', 'Cold milk, caramel, espresso cloud.', 12.9],
@@ -309,11 +350,19 @@
       ['desserts', 'Nutella waffle', 'Warm waffle, chocolate, hazelnut and cream.', 18.9],
       ['drinks', 'Fresh mint lemonade', 'Lemon, mint and just enough sweetness.', 8.9],
       ['drinks', 'Peach iced tea', 'Black tea, peach, citrus and ice.', 9.9],
-      ['drinks', 'Strawberry smoothie', 'Fresh strawberry, banana and yogurt.', 14.9]
+      ['drinks', 'Strawberry smoothie', 'Fresh strawberry, banana and yogurt.', 14.9],
+      ['wraps', 'Baguette Farcie', 'Stuffed baguette prepared fresh to order.', null],
+      ['desserts', 'Crème Caramel', 'Classic silky caramel custard.', null],
+      ['drinks', 'Mojito', 'Fresh mint, lime and sparkling refreshment.', null]
     ];
-    const categoryNames = { coffee: 'Coffee & drinks', breakfast: 'Breakfast', pastries: 'Pastries', wraps: 'Wraps', sides: 'Sides', desserts: 'Desserts', drinks: 'Cold drinks' };
+    const categoryNames = { coffee: 'Coffee & drinks', breakfast: 'Breakfast', pastries: 'Pastries', fried: 'Fried chicken', burgers: 'Burgers', wraps: 'Wraps', sides: 'Sides', desserts: 'Desserts', drinks: 'Cold drinks' };
+    const storageKey = 'trend-cafe-menu-items';
+    let products = defaultProducts;
+    try { products = JSON.parse(localStorage.getItem(storageKey)) || defaultProducts; } catch (error) { products = defaultProducts; }
+    defaultProducts.slice(-3).forEach(item => { if (!products.some(product => product[1] === item[1])) products.push(item); });
+    const formatPrice = price => price == null ? 'Price on request' : `${Number(price).toFixed(2)} DT`;
     const catalog = document.querySelector('#catalog');
-    const categoryOrder = ['coffee', 'breakfast', 'pastries', 'wraps', 'sides', 'desserts', 'drinks'];
+    const categoryOrder = ['coffee', 'breakfast', 'pastries', 'fried', 'burgers', 'wraps', 'sides', 'desserts', 'drinks'];
     const itemImages = {
       'Espresso tonic': 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80',
       'Cardamom latte': 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=500&q=80',
@@ -340,19 +389,28 @@
       'Nutella waffle': 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=500&q=80',
       'Fresh mint lemonade': 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&w=500&q=80',
       'Peach iced tea': 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80',
-      'Strawberry smoothie': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80'
+      'Strawberry smoothie': 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=500&q=80',
+      'Baguette Farcie': 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80',
+      'Crème Caramel': 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80',
+      'Mojito': 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80'
     };
-    categoryOrder.forEach(category => {
-      const section = document.createElement('section');
-      section.className = 'catalog-section';
-      section.dataset.category = category;
-      section.innerHTML = `<h2>${categoryNames[category]}</h2><div class="catalog-grid">${products.filter(product => product[0] === category).map(product => `<article class="catalog-card"><div class="catalog-photo" role="img" aria-label="${product[1]}" style="background-image:url('${itemImages[product[1]]}')"></div><div><h3>${product[1]}</h3><p>${product[2]}</p></div><footer><strong class="dish-price">${product[3].toFixed(2)} DT</strong></footer></article>`).join('')}</div>`;
-      catalog.appendChild(section);
-    });
+    const renderCatalog = () => {
+      catalog.innerHTML = '';
+      categoryOrder.forEach(category => {
+        const section = document.createElement('section');
+        section.className = 'catalog-section';
+        section.dataset.category = category;
+        section.innerHTML = `<h2>${categoryNames[category]}</h2><div class="catalog-grid">${products.filter(product => product[0] === category).map(product => { const image = itemImages[product[1]] || product[4] || itemImages['Espresso tonic']; return `<article class="catalog-card"><div class="catalog-photo" role="img" aria-label="${product[1]}" style="background-image:url('${image}')"></div><div><h3>${product[1]}</h3><p>${product[2]}</p></div><footer><strong class="dish-price">${formatPrice(product[3])}</strong></footer></article>`; }).join('')}</div>`;
+        catalog.appendChild(section);
+      });
+    };
+    renderCatalog();
     let activeCategory = 'all';
     const applyFilters = () => {
       const query = document.querySelector('.search input').value.trim().toLowerCase();
       const matches = element => !query || element.innerText.toLowerCase().includes(query);
+      const categoryMode = activeCategory !== 'all';
+      document.querySelectorAll('.featured-section, .bundles-section, .specials-section').forEach(section => { section.hidden = categoryMode; });
       document.querySelectorAll('.dish-card').forEach(card => { card.hidden = (activeCategory !== 'all' && card.dataset.category !== activeCategory) || !matches(card); });
       document.querySelectorAll('.catalog-section').forEach(section => {
         const categoryMatch = activeCategory === 'all' || section.dataset.category === activeCategory;
@@ -368,10 +426,77 @@
       const label = button.textContent.trim().toLowerCase();
       activeCategory = label.includes('burger') ? 'burgers' : label.includes('chicken') ? 'fried' : label.includes('coffee') ? 'coffee' : label.includes('breakfast') ? 'breakfast' : label.includes('pastr') ? 'pastries' : label.includes('wrap') ? 'wraps' : label.includes('side') ? 'sides' : label.includes('drink') ? 'drinks' : label.includes('dessert') ? 'desserts' : 'all';
       applyFilters();
-      document.querySelector('#dishes').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      document.querySelector(activeCategory === 'all' ? '#dishes' : '#catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
     document.querySelector('.search input').addEventListener('input', event => {
       applyFilters();
+    });
+    const dashboard = document.querySelector('#dashboard');
+    const loginScreen = document.querySelector('#loginScreen');
+    const loginForm = document.querySelector('#loginForm');
+    const loginError = document.querySelector('#loginError');
+    const ownerCredentials = { username: 'owner', password: 'trend2026' };
+    const adminList = document.querySelector('#adminList');
+    const itemForm = document.querySelector('#itemForm');
+    const resetForm = () => {
+      itemForm.reset();
+      document.querySelector('#editIndex').value = '';
+      document.querySelector('#formTitle').textContent = 'Add a menu item';
+      document.querySelector('#cancelEdit').hidden = true;
+    };
+    const saveProducts = () => localStorage.setItem(storageKey, JSON.stringify(products));
+    const renderAdminList = () => {
+      document.querySelector('#itemCount').textContent = `${products.length} items`;
+      adminList.innerHTML = products.map((product, index) => {
+        const image = itemImages[product[1]] || product[4] || itemImages['Espresso tonic'];
+        return `<article class="admin-item"><img src="${image}" alt=""><div><h3>${product[1]}</h3><p>${categoryNames[product[0]] || product[0]} · ${product[2]}</p><strong>${formatPrice(product[3])}</strong></div><div class="item-actions"><button type="button" data-edit="${index}" aria-label="Edit ${product[1]}">✎</button><button type="button" data-delete="${index}" aria-label="Delete ${product[1]}">×</button></div></article>`;
+      }).join('');
+    };
+    const refreshMenu = () => { renderCatalog(); renderAdminList(); applyFilters(); };
+    const showLogin = () => { loginScreen.classList.add('open'); loginScreen.setAttribute('aria-hidden', 'false'); document.body.classList.add('dashboard-open'); document.querySelector('#loginUsername').focus(); };
+    const openDashboard = event => { if (event) event.preventDefault(); if (sessionStorage.getItem('trend-owner-auth') !== 'true') { showLogin(); return; } dashboard.classList.add('open'); dashboard.setAttribute('aria-hidden', 'false'); document.body.classList.add('dashboard-open'); renderAdminList(); };
+    const closeDashboard = () => { dashboard.classList.remove('open'); dashboard.setAttribute('aria-hidden', 'true'); document.body.classList.remove('dashboard-open'); history.replaceState(null, '', `${location.pathname}${location.search}`); resetForm(); };
+    const signOut = () => { sessionStorage.removeItem('trend-owner-auth'); closeDashboard(); loginScreen.classList.remove('open'); loginScreen.setAttribute('aria-hidden', 'true'); };
+    document.querySelector('.owner-link').addEventListener('click', openDashboard);
+    document.querySelector('#closeDashboard').addEventListener('click', closeDashboard);
+    document.querySelector('#logoutButton').addEventListener('click', signOut);
+    loginForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const valid = document.querySelector('#loginUsername').value === ownerCredentials.username && document.querySelector('#loginPassword').value === ownerCredentials.password;
+      if (!valid) { loginError.textContent = 'Incorrect username or password.'; document.querySelector('#loginPassword').select(); return; }
+      sessionStorage.setItem('trend-owner-auth', 'true');
+      loginError.textContent = '';
+      loginScreen.classList.remove('open');
+      loginScreen.setAttribute('aria-hidden', 'true');
+      dashboard.classList.add('open');
+      dashboard.setAttribute('aria-hidden', 'false');
+      renderAdminList();
+    });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && dashboard.classList.contains('open')) closeDashboard(); });
+    itemForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const item = [document.querySelector('#itemCategory').value, document.querySelector('#itemName').value.trim(), document.querySelector('#itemDescription').value.trim(), Number(document.querySelector('#itemPrice').value), document.querySelector('#itemImage').value.trim()];
+      const editIndex = document.querySelector('#editIndex').value;
+      if (editIndex === '') products.push(item); else products[Number(editIndex)] = item;
+      saveProducts(); refreshMenu(); resetForm();
+    });
+    document.querySelector('#cancelEdit').addEventListener('click', resetForm);
+    adminList.addEventListener('click', event => {
+      const editButton = event.target.closest('[data-edit]');
+      const deleteButton = event.target.closest('[data-delete]');
+      if (editButton) {
+        const product = products[Number(editButton.dataset.edit)];
+        document.querySelector('#editIndex').value = editButton.dataset.edit;
+        document.querySelector('#itemName').value = product[1];
+        document.querySelector('#itemCategory').value = product[0];
+        document.querySelector('#itemDescription').value = product[2];
+        document.querySelector('#itemPrice').value = product[3];
+        document.querySelector('#itemImage').value = product[4] || itemImages[product[1]] || '';
+        document.querySelector('#formTitle').textContent = 'Update menu item';
+        document.querySelector('#cancelEdit').hidden = false;
+        document.querySelector('#itemName').focus();
+      }
+      if (deleteButton) { products.splice(Number(deleteButton.dataset.delete), 1); saveProducts(); refreshMenu(); }
     });
     document.querySelector('.search button').addEventListener('click', () => document.querySelector('.search input').focus());
     document.querySelector('.offer button').addEventListener('click', () => document.querySelector('#dishes').scrollIntoView({ behavior: 'smooth', block: 'start' }));
