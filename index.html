@@ -180,6 +180,13 @@
     .topbar { display:flex; align-items:center; justify-content:space-between; gap:18px; padding: 0 4px 18px; }
     .topbar .brandmark { font-size: 21px; line-height:.88; font-weight: 500; letter-spacing:-.07em; }
     .brandmark span { display:block; color:var(--orange); text-transform:uppercase; font-size:9px; letter-spacing:.02em; margin-top:5px; }
+    .language-switcher { display:flex; gap:3px; padding:3px; border:1px solid #353832; border-radius:18px; background:#1c1e1b; }
+    .language-switcher button { border:0; border-radius:14px; background:transparent; color:#9da196; padding:5px 8px; font-size:9px; cursor:pointer; }
+    .language-switcher button.active { background:var(--orange); color:#171713; }
+    [dir="rtl"] { text-align:right; }
+    [dir="rtl"] .hero h1 em { margin-left:0; margin-right:16px; }
+    [dir="rtl"] .search { padding:0 18px 0 10px; }
+    [dir="rtl"] .section-row, [dir="rtl"] .category-chip { text-align:right; }
     .top-actions { display:flex; gap:10px; align-items:center; color:var(--paper); }
     .menu-status { color:#a9aca0; font-size:10px; white-space:nowrap; }
     .status-dot { display:inline-block; width:7px; height:7px; margin-right:5px; border-radius:50%; background:var(--lime); box-shadow:0 0 0 3px rgba(198,223,44,.12); }
@@ -299,11 +306,11 @@
 <body>
   <main class="shell" aria-label="Trend resto coffee menu">
     <section class="home">
-      <header class="topbar"><div class="brandmark">Trend <span>Resto · Coffee</span></div></header>
+      <header class="topbar"><div class="brandmark">Trend <span>Resto · Coffee</span></div><div class="language-switcher" aria-label="Language"><button type="button" data-lang="en" class="active">EN</button><button type="button" data-lang="fr">FR</button><button type="button" data-lang="ar">عربي</button></div></header>
       <section class="hero"><div><h1>Trend resto <em>coffee</em></h1></div></section>
-      <label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search for meals, combos, drinks..."><button aria-label="Filter menu">☷</button></label>
-      <div class="categories" aria-label="Food categories"><button class="category-chip active"><span class="chip-icon">✦</span>All<br>items</button><button class="category-chip"><span class="chip-icon">🍗</span>Fried<br>Chicken</button><button class="category-chip"><span class="chip-icon">☕</span>Coffee</button><button class="category-chip"><span class="chip-icon">🍳</span>Breakfast</button><button class="category-chip"><span class="chip-icon">🥐</span>Pastries</button><button class="category-chip"><span class="chip-icon">🍔</span>Burgers</button><button class="category-chip"><span class="chip-icon">🌯</span>Wraps</button><button class="category-chip"><span class="chip-icon">🍟</span>Sides</button><button class="category-chip"><span class="chip-icon">🥤</span>Drinks</button><button class="category-chip"><span class="chip-icon">🍰</span>Desserts</button></div>
-      <div class="section-row featured-section"><h2>Signature dishes ✧</h2><a href="#dishes">View all ›</a></div>
+      <label class="search"><span aria-hidden="true">⌕</span><input type="search" data-i18n-placeholder="search"><button aria-label="Filter menu">☷</button></label>
+      <div class="categories" aria-label="Food categories"><button class="category-chip active" data-category="all"><span class="chip-icon">✦</span></button><button class="category-chip" data-category="fried"><span class="chip-icon">🍗</span></button><button class="category-chip" data-category="coffee"><span class="chip-icon">☕</span></button><button class="category-chip" data-category="breakfast"><span class="chip-icon">🍳</span></button><button class="category-chip" data-category="pastries"><span class="chip-icon">🥐</span></button><button class="category-chip" data-category="burgers"><span class="chip-icon">🍔</span></button><button class="category-chip" data-category="wraps"><span class="chip-icon">🌯</span></button><button class="category-chip" data-category="sides"><span class="chip-icon">🍟</span></button><button class="category-chip" data-category="drinks"><span class="chip-icon">🥤</span></button><button class="category-chip" data-category="desserts"><span class="chip-icon">🍰</span></button></div>
+      <div class="section-row featured-section"><h2 data-i18n="signature">Signature dishes ✧</h2><a href="#dishes" data-i18n="viewAll">View all ›</a></div>
       <div class="dish-row" id="dishes"><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Crispy Chicken Bucket</h3><p>Bestseller</p><div class="dish-price">39.90 DT</div></div></article><article class="dish-card" data-category="burgers"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Spicy Crunch Burger</h3><p>Bestseller</p><div class="dish-price">29.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Korean BBQ Wings</h3><p>Bestseller</p><div class="dish-price">34.90 DT</div></div></article><article class="dish-card" data-category="fried"><div class="dish-photo" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80')"></div><div class="dish-info"><h3>Chicken Tenders</h3><p>House favorite</p><div class="dish-price">24.90 DT</div></div></article></div>
       <div class="section-row bundles-section"><h2>Family bundles <small style="color:var(--lime);font:italic 11px var(--serif)">Perfect for sharing!</small></h2><a href="#bundles">View all ›</a></div>
       <div class="bundles bundles-section" id="bundles"><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80')"><h3>Family Feast</h3><p>10 pcs chicken<br>+ 2 large sides</p><strong>29.99 DT</strong></article><article class="bundle" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80')"><h3>Mega Bundle</h3><p>15 pcs chicken<br>+ 3 large sides</p><strong>42.99 DT</strong></article></div>
@@ -357,6 +364,62 @@
       ['drinks', 'Mojito', 'Fresh mint, lime and sparkling refreshment.', null]
     ];
     const categoryNames = { coffee: 'Coffee & drinks', breakfast: 'Breakfast', pastries: 'Pastries', fried: 'Fried chicken', burgers: 'Burgers', wraps: 'Wraps', sides: 'Sides', desserts: 'Desserts', drinks: 'Cold drinks' };
+    const translations = {
+      en: { search: 'Search for meals, combos, drinks...', all: 'All<br>items', fried: 'Fried<br>Chicken', coffee: 'Coffee', breakfast: 'Breakfast', pastries: 'Pastries', burgers: 'Burgers', wraps: 'Wraps', sides: 'Sides', drinks: 'Drinks', desserts: 'Desserts', signature: 'Signature dishes ✧', viewAll: 'View all ›', bundles: 'Family bundles', specials: 'Chef specials', offer: 'WEEKEND<br>CRUNCH FEST', offerText: 'Up to 25% OFF on selected items', viewSpecials: 'View specials', catalog: { coffee: 'Coffee & drinks', breakfast: 'Breakfast', pastries: 'Pastries', fried: 'Fried chicken', burgers: 'Burgers', wraps: 'Wraps', sides: 'Sides', desserts: 'Desserts', drinks: 'Cold drinks' } },
+      fr: { search: 'Rechercher un plat, un café, une boisson...', all: 'Tous<br>les plats', fried: 'Poulet<br>frit', coffee: 'Café', breakfast: 'Petit-déjeuner', pastries: 'Pâtisseries', burgers: 'Burgers', wraps: 'Wraps', sides: 'Accompagnements', drinks: 'Boissons', desserts: 'Desserts', signature: 'Nos incontournables ✧', viewAll: 'Tout voir ›', bundles: 'Menus à partager', specials: 'Suggestions du chef', offer: 'WEEK-END<br>GOURMAND', offerText: "Jusqu'à 25% de réduction sur une sélection", viewSpecials: 'Voir les offres', catalog: { coffee: 'Cafés & boissons', breakfast: 'Petit-déjeuner', pastries: 'Pâtisseries', fried: 'Poulet frit', burgers: 'Burgers', wraps: 'Wraps', sides: 'Accompagnements', desserts: 'Desserts', drinks: 'Boissons fraîches' } },
+      ar: { search: 'ابحث عن الأطباق والمشروبات...', all: 'كل<br>الأطباق', fried: 'دجاج<br>مقلي', coffee: 'قهوة', breakfast: 'فطور', pastries: 'حلويات', burgers: 'برغر', wraps: 'راب', sides: 'مقبلات', drinks: 'مشروبات', desserts: 'حلويات', signature: 'أطباقنا المميزة ✧', viewAll: 'عرض الكل ›', bundles: 'وجبات للمشاركة', specials: 'اختيارات الشيف', offer: 'عطلة نهاية الأسبوع<br>بطعم مميز', offerText: 'خصم يصل إلى 25% على أطباق مختارة', viewSpecials: 'شاهد العروض', catalog: { coffee: 'القهوة والمشروبات', breakfast: 'الفطور', pastries: 'المعجنات', fried: 'الدجاج المقلي', burgers: 'البرغر', wraps: 'راب', sides: 'المقبلات', desserts: 'الحلويات', drinks: 'المشروبات الباردة' } }
+    };
+    let currentLanguage = 'en';
+    const localizedCategoryNames = () => translations[currentLanguage].catalog;
+    const staticTranslations = {
+      en: {
+        featured: [['Crispy Chicken Bucket', 'Bestseller'], ['Spicy Crunch Burger', 'Bestseller'], ['Korean BBQ Wings', 'Bestseller'], ['Chicken Tenders', 'House favorite']],
+        bundles: [['Family Feast', '10 pcs chicken<br>+ 2 large sides', '29.99 DT'], ['Mega Bundle', '15 pcs chicken<br>+ 3 large sides', '42.99 DT']],
+        sharing: 'Perfect for sharing!', footer: ['Trend resto coffee', '40 Av. Monji Slim<br>Le 2000, Tunis', 'Visit us', '<strong>Restaurant</strong> · Dine-in<br>Takeaway available', 'Contact', '27 062 330<br>R47H+PC Tunis', 'Good to know', 'TND 20–30 per person<br>Food · Coffee · Gelato']
+      },
+      fr: {
+        featured: [['Bucket de poulet croustillant', 'Best-seller'], ['Burger crunch épicé', 'Best-seller'], ['Wings BBQ coréennes', 'Best-seller'], ['Tenders de poulet', 'Coup de cœur']],
+        bundles: [['Menu familial', '10 pièces de poulet<br>+ 2 grandes portions', '29.99 DT'], ['Grand menu', '15 pièces de poulet<br>+ 3 grandes portions', '42.99 DT']],
+        sharing: 'Parfait à partager !', footer: ['Trend resto coffee', '40 Av. Monji Slim<br>Le 2000, Tunis', 'Nous rendre visite', '<strong>Restaurant</strong> · Sur place<br>À emporter disponible', 'Contact', '27 062 330<br>R47H+PC Tunis', 'À savoir', '20–30 TND par personne<br>Food · Café · Gelato']
+      },
+      ar: {
+        featured: [['سلة دجاج مقرمش', 'الأكثر طلباً'], ['برغر كرانش حار', 'الأكثر طلباً'], ['أجنحة باربكيو كورية', 'الأكثر طلباً'], ['تندرز الدجاج', 'اختيارنا المفضل']],
+        bundles: [['وجبة عائلية', '10 قطع دجاج<br>+ طبقين جانبيين كبيرين', '29.99 DT'], ['وجبة كبيرة', '15 قطعة دجاج<br>+ 3 أطباق جانبية كبيرة', '42.99 DT']],
+        sharing: 'مثالية للمشاركة!', footer: ['Trend resto coffee', '40 شارع المنجي سليم<br>لو 2000، تونس', 'زورونا', '<strong>مطعم</strong> · داخل المطعم<br>متوفر للأخذ', 'اتصل بنا', '27 062 330<br>R47H+PC Tunis', 'معلومات مهمة', '20–30 دينار للشخص<br>طعام · قهوة · جيلاتو']
+      }
+    };
+    const productTranslations = {
+      'Espresso tonic': { fr: { name: 'Espresso tonic', description: 'Espresso vif, tonic et zeste d agrume.' }, ar: { name: 'إسبريسو تونيك', description: 'إسبريسو منعش مع التونيك وقشر الحمضيات.' } },
+      'Cardamom latte': { fr: { name: 'Latte à la cardamome', description: 'Lait onctueux, cardamome et double espresso.' }, ar: { name: 'لاتيه بالهيل', description: 'حليب ناعم مع الهيل وإسبريسو مزدوج.' } },
+      'Iced caramel macchiato': { fr: { name: 'Macchiato caramel glace', description: 'Lait froid, caramel et nuage d espresso.' }, ar: { name: 'ماكياتو كراميل مثلج', description: 'حليب بارد، كراميل ورغوة إسبريسو.' } },
+      'Mocha cookie': { fr: { name: 'Moka cookie', description: 'Chocolat, espresso et crème fouettée.' }, ar: { name: 'موكا كوكي', description: 'شوكولاتة وإسبريسو وكريمة مخفوقة.' } },
+      'Matcha cloud': { fr: { name: 'Nuage de matcha', description: 'Matcha, mousse vanillée et lait d avoine.' }, ar: { name: 'ماتشا كلاود', description: 'ماتشا مع رغوة الفانيلا وحليب الشوفان.' } },
+      'Trend breakfast plate': { fr: { name: 'Formule petit-déjeuner Trend', description: 'Œufs, tartines, saucisse, frites et salade.' }, ar: { name: 'فطور ترند', description: 'بيض وخبز محمص ونقانق وبطاطا وسلطة.' } },
+      'Avocado toast': { fr: { name: 'Toast avocat', description: 'Pain au levain, avocat, œuf poché et piment.' }, ar: { name: 'توست الأفوكادو', description: 'خبز العجين المخمر والأفوكادو والبيض المسلوق والفلفل.' } },
+      'Pancake stack': { fr: { name: 'Pancakes gourmands', description: 'Pancakes moelleux, sirop, fruits rouges et crème.' }, ar: { name: 'بان كيك', description: 'بان كيك هش مع شراب القيقب والتوت والكريمة.' } },
+      'Croque monsieur': { fr: { name: 'Croque monsieur', description: 'Brioche toastée, dinde, fromage et béchamel.' }, ar: { name: 'كروك مسيو', description: 'خبز محمص مع الديك الرومي والجبن والبشاميل.' } },
+      'Granola bowl': { fr: { name: 'Bol de granola', description: 'Yaourt, granola, banane, miel et fruits rouges.' }, ar: { name: 'وعاء الغرانولا', description: 'زبادي وغرانولا وموز وعسل وتوت.' } },
+      'Almond croissant': { fr: { name: 'Croissant aux amandes', description: 'Pâte feuilletée, crème d amande et amandes grillées.' }, ar: { name: 'كرواسون باللوز', description: 'عجينة مورقة مع كريمة اللوز واللوز المحمص.' } },
+      'Pain au chocolat': { fr: { name: 'Pain au chocolat', description: 'Pâte croustillante au cœur de chocolat noir.' }, ar: { name: 'بان أو شوكولا', description: 'معجنات مقرمشة بحشوة الشوكولاتة الداكنة.' } },
+      'Cinnamon roll': { fr: { name: 'Roulé à la cannelle', description: 'Brioche moelleuse, cannelle et glaçage vanillé.' }, ar: { name: 'رول القرفة', description: 'لفافة طرية بالقرفة وتغطية الفانيلا.' } },
+      'Pistachio cookie': { fr: { name: 'Cookie pistache', description: 'Bords croustillants, cœur moelleux et pistache grillée.' }, ar: { name: 'كوكيز بالفستق', description: 'حواف مقرمشة وقلب طري مع فستق محمص.' } },
+      'Blueberry muffin': { fr: { name: 'Muffin aux myrtilles', description: 'Myrtilles fraîches, citron et cœur moelleux.' }, ar: { name: 'مافن بالتوت الأزرق', description: 'توت أزرق طازج وليمون وكيك طري.' } },
+      'Crispy chicken wrap': { fr: { name: 'Wrap poulet croustillant', description: 'Poulet, salade, fromage, pickles et sauce.' }, ar: { name: 'راب الدجاج المقرمش', description: 'دجاج وخس وجبن ومخلل وصلصة.' } },
+      'BBQ beef wrap': { fr: { name: 'Wrap bœuf BBQ', description: 'Bœuf, sauce BBQ fumée, oignons et frites.' }, ar: { name: 'راب لحم بالباربكيو', description: 'لحم وصلصة باربكيو مدخنة وبصل وبطاطا.' } },
+      'Loaded fries': { fr: { name: 'Frites gourmandes', description: 'Frites, sauce fromage, herbes et oignons croustillants.' }, ar: { name: 'بطاطا محملة', description: 'بطاطا مع صلصة الجبن والأعشاب والبصل المقرمش.' } },
+      'Mozzarella sticks': { fr: { name: 'Bâtonnets de mozzarella', description: 'Panure dorée, fromage fondant et sauce tomate.' }, ar: { name: 'أصابع موزاريلا', description: 'جبن ذائب بغطاء مقرمش مع صلصة الطماطم.' } },
+      'Fresh coleslaw': { fr: { name: 'Coleslaw frais', description: 'Chou, carotte et sauce crémeuse maison.' }, ar: { name: 'كولسلو طازج', description: 'ملفوف وجزر وصلصة كريمية منزلية.' } },
+      'Lotus cheesecake': { fr: { name: 'Cheesecake Lotus', description: 'Cheesecake crémeux, biscuit et caramel.' }, ar: { name: 'تشيز كيك لوتس', description: 'تشيز كيك كريمي مع بسكويت وكراميل.' } },
+      'Oreo milkshake': { fr: { name: 'Milkshake Oreo', description: 'Boisson froide et crémeuse aux biscuits Oreo.' }, ar: { name: 'ميلك شيك أوريو', description: 'مشروب بارد وكريمي مع بسكويت أوريو.' } },
+      'Nutella waffle': { fr: { name: 'Gaufre Nutella', description: 'Gaufre chaude, chocolat, noisette et crème.' }, ar: { name: 'وافل نوتيلا', description: 'وافل دافئ مع الشوكولاتة والبندق والكريمة.' } },
+      'Fresh mint lemonade': { fr: { name: 'Citronnade à la menthe', description: 'Citron, menthe et juste ce qu il faut de douceur.' }, ar: { name: 'ليمونادة بالنعناع', description: 'ليمون ونعناع وحلاوة متوازنة.' } },
+      'Peach iced tea': { fr: { name: 'Thé glacé à la pêche', description: 'Thé noir, pêche, agrumes et glaçons.' }, ar: { name: 'شاي مثلج بالخوخ', description: 'شاي أسود وخوخ وحمضيات وثلج.' } },
+      'Strawberry smoothie': { fr: { name: 'Smoothie fraise', description: 'Fraise fraîche, banane et yaourt.' }, ar: { name: 'سموذي بالفراولة', description: 'فراولة طازجة وموز وزبادي.' } },
+      'Baguette Farcie': { fr: { name: 'Baguette farcie', description: 'Baguette garnie préparée fraîche sur place.' }, ar: { name: 'باغيت محشية', description: 'خبز باغيت محشو ومحضر طازجاً.' } },
+      'Crème Caramel': { fr: { name: 'Crème caramel', description: 'Flan onctueux au caramel.' }, ar: { name: 'كريم كراميل', description: 'كاسترد ناعم مع الكراميل.' } },
+      'Mojito': { fr: { name: 'Mojito', description: 'Menthe fraîche, citron vert et fraîcheur pétillante.' }, ar: { name: 'موهيتو', description: 'نعناع طازج وليمون أخضر وانتعاش غازي.' } }
+    };
+    const localizedProduct = product => productTranslations[product[1]]?.[currentLanguage] || { name: product[1], description: product[2] };
     const storageKey = 'trend-cafe-menu-items';
     let products = defaultProducts;
     try { products = JSON.parse(localStorage.getItem(storageKey)) || defaultProducts; } catch (error) { products = defaultProducts; }
@@ -401,11 +464,38 @@
         const section = document.createElement('section');
         section.className = 'catalog-section';
         section.dataset.category = category;
-        section.innerHTML = `<h2>${categoryNames[category]}</h2><div class="catalog-grid">${products.filter(product => product[0] === category).map(product => { const image = itemImages[product[1]] || product[4] || itemImages['Espresso tonic']; return `<article class="catalog-card"><div class="catalog-photo" role="img" aria-label="${product[1]}" style="background-image:url('${image}')"></div><div><h3>${product[1]}</h3><p>${product[2]}</p></div><footer><strong class="dish-price">${formatPrice(product[3])}</strong></footer></article>`; }).join('')}</div>`;
+        section.innerHTML = `<h2>${localizedCategoryNames()[category]}</h2><div class="catalog-grid">${products.filter(product => product[0] === category).map(product => { const image = itemImages[product[1]] || product[4] || itemImages['Espresso tonic']; const copy = localizedProduct(product); return `<article class="catalog-card"><div class="catalog-photo" role="img" aria-label="${copy.name}" style="background-image:url('${image}')"></div><div><h3>${copy.name}</h3><p>${copy.description}</p></div><footer><strong class="dish-price">${formatPrice(product[3])}</strong></footer></article>`; }).join('')}</div>`;
         catalog.appendChild(section);
       });
     };
     renderCatalog();
+    const applyLanguage = language => {
+      currentLanguage = language;
+      const copy = translations[language];
+      document.documentElement.lang = language;
+      document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+      document.querySelector('.search input').placeholder = copy.search;
+      document.querySelectorAll('.language-switcher button').forEach(button => button.classList.toggle('active', button.dataset.lang === language));
+      document.querySelectorAll('.category-chip').forEach(button => { const icon = button.querySelector('.chip-icon').outerHTML; button.innerHTML = `${icon}${copy[button.dataset.category]}`; });
+      document.querySelector('[data-i18n="signature"]').innerHTML = copy.signature;
+      document.querySelector('[data-i18n="viewAll"]').textContent = copy.viewAll;
+      document.querySelector('.bundles-section a').textContent = copy.viewAll;
+      document.querySelector('.bundles-section h2').firstChild.textContent = `${copy.bundles} `;
+      document.querySelector('.specials-section h2').textContent = copy.specials;
+      document.querySelector('.offer h2').innerHTML = copy.offer;
+      document.querySelector('.offer p').textContent = copy.offerText;
+      document.querySelector('.offer button').textContent = copy.viewSpecials;
+      const staticCopy = staticTranslations[language];
+      document.querySelectorAll('.dish-card').forEach((card, index) => { card.querySelector('h3').textContent = staticCopy.featured[index][0]; card.querySelector('p').textContent = staticCopy.featured[index][1]; });
+      document.querySelectorAll('#bundles .bundle').forEach((bundle, index) => { bundle.querySelector('h3').textContent = staticCopy.bundles[index][0]; bundle.querySelector('p').innerHTML = staticCopy.bundles[index][1]; bundle.querySelector('strong').textContent = staticCopy.bundles[index][2]; });
+      document.querySelector('.bundles-section h2 small').textContent = staticCopy.sharing;
+      const footerBlocks = document.querySelectorAll('.site-footer > div');
+      footerBlocks.forEach((block, index) => { block.querySelector('h3').textContent = staticCopy.footer[index * 2]; block.querySelector('p').innerHTML = staticCopy.footer[index * 2 + 1]; });
+      document.querySelector('.owner-link').textContent = language === 'ar' ? 'لوحة المالك' : language === 'fr' ? 'Espace propriétaire' : 'Owner dashboard';
+      renderCatalog();
+      applyFilters();
+    };
+    document.querySelectorAll('.language-switcher button').forEach(button => button.addEventListener('click', () => applyLanguage(button.dataset.lang)));
     let activeCategory = 'all';
     const applyFilters = () => {
       const query = document.querySelector('.search input').value.trim().toLowerCase();
@@ -421,11 +511,11 @@
       });
       document.querySelector('#filterEmpty').classList.toggle('show', !document.querySelector('.dish-card:not([hidden]), .catalog-card:not([hidden])'));
     };
+    applyLanguage('en');
     document.querySelectorAll('.category-chip').forEach(button => button.addEventListener('click', () => {
       document.querySelector('.category-chip.active').classList.remove('active');
       button.classList.add('active');
-      const label = button.textContent.trim().toLowerCase();
-      activeCategory = label.includes('burger') ? 'burgers' : label.includes('chicken') ? 'fried' : label.includes('coffee') ? 'coffee' : label.includes('breakfast') ? 'breakfast' : label.includes('pastr') ? 'pastries' : label.includes('wrap') ? 'wraps' : label.includes('side') ? 'sides' : label.includes('drink') ? 'drinks' : label.includes('dessert') ? 'desserts' : 'all';
+      activeCategory = button.dataset.category;
       applyFilters();
       document.querySelector(activeCategory === 'all' ? '#dishes' : '#catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
